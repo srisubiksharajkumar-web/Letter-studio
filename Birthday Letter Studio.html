@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#ee5f98"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="Letter Studio">
+<title>Birthday Letter Studio</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E🎀%3C/text%3E%3C/svg%3E">
+<style>
+:root{--bg1:#fff1f5;--bg2:#f3efff;--panel:#ffffffe6;--ink:#382d49;--muted:#756b80;--line:#eaddec;--pink:#ee5f98;--purple:#8f72f0;--soft:#f3edff;--field:#fff;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media(prefers-color-scheme:dark){:root:not([data-theme=light]){--bg1:#1c1626;--bg2:#171a2e;--panel:#2a2238e6;--ink:#f3eaff;--muted:#b9abc9;--line:#44385a;--soft:#3a2f52;--field:#211a2e}}
+:root[data-theme=dark]{--bg1:#1c1626;--bg2:#171a2e;--panel:#2a2238e6;--ink:#f3eaff;--muted:#b9abc9;--line:#44385a;--soft:#3a2f52;--field:#211a2e}
+*{box-sizing:border-box}html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;font-family:ui-rounded,"Trebuchet MS",Arial,sans-serif;color:var(--ink);background:linear-gradient(135deg,var(--bg1),var(--bg2));background-color:var(--bg1);min-height:100vh}
+button{font:inherit;color:inherit;cursor:pointer}
+.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:var(--panel);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
+.bar{max-width:1240px;margin:auto;padding:12px 20px;display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.brand{font-weight:900;font-size:1.2rem}.brand b{color:var(--pink)}
+nav{display:flex;gap:4px;flex:1;overflow-x:auto;scrollbar-width:none}nav::-webkit-scrollbar{display:none}
+.tab{border:0;background:none;padding:9px 15px;border-radius:12px;font-weight:800;font-size:.9rem;color:var(--muted);white-space:nowrap}
+.tab:hover{background:var(--soft)}.tab.on{background:linear-gradient(100deg,var(--pink),var(--purple));color:#fff}
+.icon{border:1px solid var(--line);background:var(--field);border-radius:12px;padding:8px 11px}
+main{max-width:1240px;margin:auto;padding:22px 20px 60px}
+.view{display:none}.view.on{display:block;animation:in .35s ease}@keyframes in{from{opacity:0;transform:translateY(8px)}}
+.layout{display:grid;grid-template-columns:minmax(300px,1fr) minmax(320px,1.05fr);gap:24px;align-items:start}
+body[data-tab=home] .layout,body[data-tab=saved] .layout{display:block}
+body[data-tab=home] .side,body[data-tab=saved] .side{display:none}
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:24px;padding:22px;box-shadow:0 12px 35px #6144771a}
+.side{position:sticky;top:calc(78px + env(safe-area-inset-top,0px))}
+h2{font-size:1.2rem;margin:0 0 6px}.hint{font-size:.82rem;color:var(--muted);margin:0 0 14px;line-height:1.5}
+.hero{text-align:center;padding:40px 10px 30px}.eyebrow{color:var(--pink);font-weight:800;text-transform:uppercase;letter-spacing:2px;font-size:.75rem}
+.hero h1{font-size:clamp(2.2rem,6vw,4.4rem);line-height:1.04;margin:14px 0;background:linear-gradient(90deg,#e95f99,#8b70e9);-webkit-background-clip:text;background-clip:text;color:transparent}
+.hero p{color:var(--muted);max-width:580px;margin:0 auto 22px;line-height:1.65}
+.feats{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px;margin-top:28px}
+.feat{background:var(--panel);border:1px solid var(--line);border-radius:20px;padding:18px;text-align:left}.feat span{font-size:1.8rem}.feat h3{margin:8px 0 4px;font-size:1rem}.feat p{margin:0;color:var(--muted);font-size:.85rem;line-height:1.5}
+.btn{border:0;border-radius:13px;padding:12px 16px;font-weight:800;transition:.2s}.btn:hover{transform:translateY(-1px)}
+.primary{background:linear-gradient(100deg,#f16e9e,#9876ef);color:#fff;box-shadow:0 7px 16px #c77aa733}.secondary{background:var(--soft);color:var(--purple)}.outline{background:var(--field);border:1px solid var(--line)}
+.row{display:flex;gap:9px;flex-wrap:wrap;margin-top:14px}.row .btn{flex:1;min-width:120px}
+.chips{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:14px}.chip{border:1px solid var(--line);background:var(--field);border-radius:20px;padding:7px 13px;font-size:.82rem;font-weight:800}.chip.on{background:var(--ink);color:var(--bg1);border-color:var(--ink)}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:10px}
+.tpl{border:2px solid transparent;border-radius:15px;padding:8px;background:var(--field);text-align:left;transition:.2s}.tpl:hover,.tpl.on{border-color:var(--purple);transform:translateY(-2px)}
+.thumb{height:76px;border-radius:10px;display:grid;place-items:center;font-size:1.8rem;margin-bottom:7px;position:relative}.thumb i{position:absolute;right:6px;bottom:3px;font-style:normal;font-size:.9rem}
+.tpl strong{font-size:.84rem;display:block}.tpl small{color:var(--muted);font-size:.72rem}
+label{display:block;font-size:.82rem;font-weight:800;margin:13px 0 6px}
+input,textarea,select{width:100%;border:1px solid var(--line);border-radius:12px;padding:11px 12px;background:var(--field);font:inherit;color:var(--ink);outline:none}
+input:focus,textarea:focus,select:focus{border-color:var(--purple);box-shadow:0 0 0 3px #8f72f033}textarea{resize:vertical;min-height:80px;line-height:1.5}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:10px}input[type=color]{height:42px;padding:3px}
+.sw{display:flex;gap:9px;flex-wrap:wrap}.sw button{width:30px;height:30px;border-radius:50%;border:2px solid #fff;box-shadow:0 0 0 1px #bbb}.sw button.on{box-shadow:0 0 0 3px var(--purple)}
+.seg{display:flex;gap:6px;flex-wrap:wrap}.seg button{flex:1;min-width:70px;border:1px solid var(--line);background:var(--field);border-radius:11px;padding:9px 8px;font-size:.82rem;font-weight:700}.seg button.on{background:var(--purple);color:#fff;border-color:var(--purple)}
+.stage{padding:18px;border-radius:20px;background:linear-gradient(135deg,#f9e9f1,#eee8ff);display:grid;place-items:center;min-height:500px;overflow:hidden}
+.card{width:min(100%,440px);min-height:450px;padding:35px 31px;border-radius:18px;position:relative;overflow:hidden;box-shadow:0 15px 35px #55345a30;transition:background .25s,color .25s}
+.card:before{content:"";position:absolute;inset:0;background:var(--pat,none);background-size:var(--ps,22px 22px);opacity:.14;pointer-events:none}
+.card .in{position:relative;z-index:1}.kick{text-transform:uppercase;letter-spacing:3px;font-size:.7rem;font-weight:900;opacity:.75}.big{font-size:2.3rem;margin:12px 0 2px}
+.card h3{font-size:2.1rem;line-height:1.08;margin:8px 0 16px;overflow-wrap:anywhere}.to{font-weight:700;margin-bottom:12px}
+.txt{white-space:pre-wrap;line-height:1.7;min-height:140px;overflow-wrap:anywhere}.sign{margin-top:20px;font-style:italic}.tiny{font-size:.74rem;opacity:.65;margin-top:22px}
+.st{position:absolute;z-index:2;font-size:1.7rem;filter:drop-shadow(0 3px 3px #5b315530);pointer-events:none}.s1{top:16px;right:18px;transform:rotate(13deg)}.s2{bottom:18px;right:20px;transform:rotate(-12deg)}.s3{top:46%;left:12px;transform:rotate(-15deg);font-size:1.3rem}
+.stats{display:flex;justify-content:space-between;font-size:.76rem;color:var(--muted);margin:10px 2px 0}
+.saved{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:14px}.sc{border-radius:18px;padding:16px;border:1px solid #0001;min-height:150px;display:flex;flex-direction:column;gap:6px}.sc b{font-size:1.05rem}.sc .row{margin-top:auto}.sc .btn{padding:7px 10px;min-width:0;font-size:.78rem;background:#fff9;color:#333}
+.empty{text-align:center;color:var(--muted);padding:50px 10px}
+#cf{position:fixed;inset:0;pointer-events:none;z-index:50;width:100%;height:100%}
+.toast{position:fixed;left:50%;bottom:calc(24px + env(safe-area-inset-bottom,0px));transform:translate(-50%,30px);background:var(--ink);color:var(--bg1);padding:11px 18px;border-radius:30px;font-weight:800;font-size:.85rem;opacity:0;transition:.3s;z-index:60}.toast.on{opacity:1;transform:translate(-50%,0)}
+.foot{text-align:center;color:var(--muted);font-size:.8rem;padding:18px}
+.tab i{font-style:normal;margin-right:5px}
+.tray{display:grid;grid-template-columns:repeat(auto-fill,minmax(54px,1fr));gap:8px;margin-bottom:14px}.sb{border:1px solid var(--line);background:var(--field);border-radius:14px;font-size:1.6rem;padding:8px 2px;min-height:50px}.sb:active{transform:scale(.92)}.sb.t{font-size:.72rem;font-weight:800;grid-column:span 2}
+.stk{position:absolute;z-index:3;line-height:1;touch-action:none;cursor:grab;user-select:none;white-space:nowrap;filter:drop-shadow(0 2px 3px #0003)}.stk.t{font-weight:900;background:#fff;color:#ee5f98;border-radius:30px;padding:.25em .7em;font-family:ui-rounded,sans-serif}.stk.sel{outline:2px dashed var(--purple);outline-offset:6px}input[type=range]{padding:0;height:30px;accent-color:#8f72f0}
+.sheet{position:fixed;inset:0;z-index:70;background:#0008;display:grid;place-items:end center}.sheet[hidden]{display:none}.sh-in{background:var(--bg1);color:var(--ink);width:min(100%,520px);border-radius:24px 24px 0 0;padding:20px 18px calc(20px + env(safe-area-inset-bottom,0px));max-height:88vh;overflow:auto;animation:in .3s}.sh-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px}.shg{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}.shb{border:0;background:none;font-size:.72rem;font-weight:800;display:flex;flex-direction:column;align-items:center;gap:6px;padding:6px 0}.shb i{font-style:normal;font-size:1.5rem;width:52px;height:52px;border-radius:50%;display:grid;place-items:center;color:#fff}
+@media print{.card .stk{outline:none!important}}
+.ph{display:none;margin:10px 0 4px}.ph.on{display:block}.ph img{display:block;width:150px;height:150px;object-fit:cover}.ph.circle img{border-radius:50%;border:4px solid #fff9}.ph.rounded img{border-radius:22px;border:4px solid #fff9}.ph.square img{border-radius:4px}.ph.wide img{width:100%;height:190px;border-radius:14px}.ph.polaroid img{width:170px;height:170px;border:10px solid #fff;border-bottom-width:34px;box-shadow:0 6px 16px #0003;transform:rotate(-3deg);border-radius:2px}
+.sc .th{width:56px;height:56px;border-radius:50%;object-fit:cover;border:3px solid #fff9}.sc small{opacity:.75}.sc .row{gap:6px}.sc .btn{flex:1 1 auto}
+.fab{display:none;position:fixed;right:14px;bottom:calc(84px + env(safe-area-inset-bottom,0px));z-index:31;border:0;border-radius:30px;padding:12px 16px;font-weight:800;background:linear-gradient(100deg,#f16e9e,#9876ef);color:#fff;box-shadow:0 8px 20px #0004}
+@media(max-width:860px){.layout{grid-template-columns:1fr}.side{position:static}.two{grid-template-columns:1fr}.stage{min-height:420px;padding:12px}.brand{flex:1;width:auto}.top{backdrop-filter:none}.bar{padding:10px 14px;flex-wrap:nowrap}main{padding:14px 12px calc(96px + env(safe-area-inset-bottom,0px))}nav{position:fixed;left:0;right:0;bottom:0;z-index:30;background:var(--panel);backdrop-filter:blur(14px);border-top:1px solid var(--line);padding:6px 6px calc(6px + env(safe-area-inset-bottom,0px));gap:2px;flex:none;overflow:visible}.tab{flex:1;display:flex;flex-direction:column;align-items:center;gap:2px;font-size:.68rem;padding:7px 2px;min-height:48px}.tab i{font-size:1.25rem;margin:0}input,textarea,select{font-size:16px}.fab{display:flex}body[data-tab=home] .fab,body[data-tab=saved] .fab{display:none}.toast{bottom:calc(88px + env(safe-area-inset-bottom,0px))}.panel{padding:16px;border-radius:20px}.btn{min-height:46px}.grid{grid-template-columns:repeat(auto-fill,minmax(105px,1fr))}.card{padding:28px 22px;min-height:420px}.hero{padding:26px 6px 20px}}
+@media print{body{background:#fff}.top,.panel:not(.side),.side>.noprint,.foot,.stats,.row{display:none!important}main{padding:0}.layout{display:block}.side{box-shadow:none;border:0;padding:0;background:none}.stage{background:#fff;padding:0;min-height:0}.card{box-shadow:none;margin:20px auto;print-color-adjust:exact;-webkit-print-color-adjust:exact}}
+</style>
+</head>
+<body data-tab="home">
+<header class="top"><div class="bar">
+<div class="brand">🎀 <b>Birthday</b> Letter Studio</div>
+<nav id="nav"><button class="tab on" data-t="home"><i>🏠</i>Home</button><button class="tab" data-t="templates"><i>🖼️</i>Templates</button><button class="tab" data-t="write"><i>✍️</i>Write</button><button class="tab" data-t="design"><i>🎨</i>Design</button><button class="tab" data-t="stickers"><i>🌟</i>Stickers</button><button class="tab" data-t="saved"><i>💌</i>My cards <span id="cnt"></span></button></nav>
+<button class="icon" id="theme" aria-label="Toggle theme">🌓</button>
+</div></header>
+<main>
+<section class="view on" data-v="home"><div class="hero"><div class="eyebrow">A little note, a big feeling</div><h1>Make their birthday<br>feel unforgettable.</h1><p>Pick from 20 hand-styled templates, write a heartfelt letter in seconds, tune every detail, then save, print or download your card.</p><div class="row" style="justify-content:center"><button class="btn primary" style="flex:0 0 auto" data-go="templates">Start creating ✨</button><button class="btn outline" style="flex:0 0 auto" data-go="saved">View my cards</button></div></div>
+<div class="feats"><div class="feat"><span>🖼️</span><h3>20 templates</h3><p>Cute, elegant, fun, nature and night themes with category filters.</p></div><div class="feat"><span>✍️</span><h3>Smart letter writer</h3><p>Choose a tone — sweet, funny, heartfelt or poetic — and generate instantly.</p></div><div class="feat"><span>🎨</span><h3>Full design control</h3><p>Colours, fonts, frames, patterns and your own sticker emojis.</p></div><div class="feat"><span>🎉</span><h3>Share &amp; keep</h3><p>Confetti, PNG download, print, copy text, and a saved-cards library.</p></div></div></section>
+
+<div class="layout" id="lay">
+<div>
+<section class="view panel" data-v="templates"><h2>Choose a template</h2><p class="hint">Filter by mood, then tap a card. The preview updates live.</p><div class="chips" id="chips"></div><div class="grid" id="tpls"></div><div class="row"><button class="btn primary" data-go="write">Next: write letter →</button></div></section>
+
+<section class="view panel" data-v="write"><h2>Write your letter</h2><p class="hint">Fill in a few details, choose a tone and generate. You can edit everything afterwards.</p>
+<div class="two"><div><label for="to">Their name</label><input id="to" placeholder="e.g. Ananya"></div><div><label for="rel">They are my…</label><select id="rel"><option>best friend</option><option>sister</option><option>brother</option><option>cousin</option><option>classmate</option><option>partner</option><option>mom</option><option>dad</option><option>favourite human</option></select></div></div>
+<label for="from">From</label><input id="from" placeholder="Your name (optional)">
+<label>Tone</label><div class="seg" id="tone"></div>
+<label for="mem">A favourite memory</label><textarea id="mem" placeholder="the time we laughed until we cried at the bus stop"></textarea>
+<label for="qual">What do you love about them?</label><input id="qual" placeholder="you always make everyone feel welcome">
+<label for="wish">Your birthday wish</label><textarea id="wish" placeholder="I hope this year brings you…"></textarea>
+<div class="row"><button class="btn primary" id="gen">✨ Generate letter</button><button class="btn outline" id="shuf">🔀 Try another</button></div>
+<div class="row"><button class="btn outline" data-go="templates">← Back</button><button class="btn secondary" data-go="design">Next: design →</button></div></section>
+
+<section class="view panel" data-v="design"><h2>Make it yours</h2><p class="hint">Fine-tune colours, typography and decoration.</p>
+<label>Palette</label><div class="sw" id="sw"></div>
+<div class="two"><div><label for="cbg">Card colour</label><input type="color" id="cbg"></div><div><label for="cink">Text colour</label><input type="color" id="cink"></div></div>
+<label>Font style</label><div class="seg" id="fonts"></div>
+<label>Frame</label><div class="seg" id="frames"></div>
+<label>Pattern</label><div class="seg" id="pats"></div>
+<label>Photo</label><div class="row" style="margin-top:0"><label class="btn outline" style="margin:0;text-align:center;display:grid;place-items:center" for="photo">📷 Add photo</label><input type="file" id="photo" accept="image/*" hidden><button class="btn outline" id="rph">✕ Remove</button></div><div class="seg" id="pshapes" style="margin-top:9px"></div>
+<label for="ctitle">Card heading</label><input id="ctitle">
+<div class="two"><div><label for="cemo">Main emoji</label><input id="cemo" maxlength="8"></div><div><label for="ckick">Small top text</label><input id="ckick"></div></div>
+<label for="cst">Sticker emojis (up to 3)</label><input id="cst" placeholder="🎀 ✨ 💖">
+<div class="row"><button class="btn outline" id="rst">↺ Reset to template</button><button class="btn primary" data-go="saved" id="gosave">Finish &amp; save →</button></div></section>
+
+<section class="view panel" data-v="stickers"><h2>Decorate with stickers</h2><p class="hint">Tap a sticker to add it. Drag it on the card to move it; tap one on the card to resize, rotate or delete it.</p><div class="chips" id="pkc"></div><div class="tray" id="tray"></div><label>Size <span id="scount" class="hint"></span></label><input type="range" id="ssz" min="16" max="90" value="38"><label>Rotate</label><input type="range" id="srt" min="-45" max="45" value="0"><div class="row"><button class="btn secondary" id="auto">✨ Auto-fill stickers</button><button class="btn outline" id="sdel">🗑 Delete selected</button><button class="btn outline" id="sclr">Clear all</button></div><div class="row"><button class="btn outline" data-go="design">← Back</button><button class="btn primary" id="gosave2" data-go="saved">Finish &amp; save →</button></div></section>
+
+<section class="view panel" data-v="saved"><h2>My cards</h2><p class="hint">Cards you save stay in this browser. Open one to keep editing, or copy it to make a variation.</p><div class="row" style="margin:0 0 14px"><button class="btn primary" data-new="1" style="flex:0 0 auto">＋ New card</button></div><div class="saved" id="savedList"></div></section>
+</div>
+
+<aside class="panel side"><div class="noprint" style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px"><h2 style="margin:0">Live preview</h2><button class="btn secondary" id="conf" style="padding:8px 12px">🎉 Confetti</button></div>
+<div class="stage"><article class="card" id="card"><div class="st s1" id="s1"></div><div class="st s2" id="s2"></div><div class="st s3" id="s3"></div><div class="in"><div class="kick" id="kick"></div><div class="big" id="big"></div><div class="ph" id="ph"><img id="phi" alt="Your photo"></div><h3 id="ttl"></h3><div class="to" id="toL"></div><div class="txt" id="txt"></div><div class="sign" id="sign"></div><div class="tiny">A little card made just for you ✦</div></div></article></div>
+<div class="stats"><span id="wc"></span><span>Edit the letter below</span></div>
+<label for="ed" class="noprint">Letter text</label><textarea id="ed" style="min-height:160px"></textarea>
+<div class="row"><button class="btn primary" id="save">💾 Save card</button><button class="btn secondary" id="png">🖼️ PNG</button></div>
+<div class="row" style="margin-top:9px"><button class="btn outline" id="copy">📋 Copy text</button><button class="btn outline" id="print">🖨️ Print</button><button class="btn outline" id="share">📤 Share</button></div></aside>
+</div>
+<div class="foot">Made for your favourite people, with love 💌</div>
+</main>
+<button class="fab" id="fab">👁 Preview</button><div class="sheet" id="sheet" hidden><div class="sh-in"><div class="sh-top"><b>Share your card</b><button class="icon" id="shx">✕</button></div><p class="hint">Instagram and Snapchat don’t accept posts from websites, so those buttons open your phone’s share menu with the card image (or save it so you can post from your gallery).</p><div class="shg" id="shg"></div></div></div><canvas id="cf"></canvas><div class="toast" id="toast"></div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script>
+const T=[
+["Sweet Pastel","Cute","#fff0f5","#603d56","🎂","A NOTE FOR YOU","Happy Birthday!","🎀 ♡ ✦"],
+["Kawaii Cute","Cute","#ffe9df","#805044","🧸","CUTENESS OVERLOAD","Happiest birthday, cutie!","🧸 🍓 😊"],
+["Cherry Crush","Cute","#ffe5eb","#8c2948","🍒","SWEETEST WISHES","Have the sweetest birthday!","🍒 ❤️ 🎀"],
+["Unicorn Dream","Cute","#f6e6ff","#6b3f8c","🦄","MAGIC & GLITTER","Stay magical!","🦄 🌈 ✨"],
+["Lavender Dream","Cute","#eee9ff","#514078","🦋","A WISH FOR YOU","The happiest birthday!","🦋 ⭐ 💜"],
+["Sunshine","Nature","#fff2c9","#79511b","🌼","A LITTLE SUNSHINE","You make life brighter!","☀️ 🌼 ✨"],
+["Garden Bloom","Nature","#e8f4e8","#3f634a","🌷","BLOOM BEAUTIFULLY","A beautiful year ahead","🌸 🍃 🌷"],
+["Ocean Breeze","Nature","#dff5f5","#245c68","🐚","SENDING HAPPY WAVES","Make a splash this year!","🐚 🫧 🐬"],
+["Autumn Glow","Nature","#ffe9d2","#7a4318","🍂","COZY WISHES","Warm wishes, golden year","🍂 🍁 🧡"],
+["Winter Wonder","Nature","#e8f3ff","#2c4a6e","❄️","SNOWFLAKE WISHES","Chill, it’s your day!","❄️ ☃️ ✨"],
+["Party Pop","Fun","#ffe4d9","#803d4b","🎉","LET’S CELEBRATE","It’s your day!","🎈 🎊 🥳"],
+["Tropical Party","Fun","#e6f5d8","#42652e","🍍","GOOD VIBES ONLY","A sunshine-filled birthday!","🍍 🌴 🍉"],
+["Retro Disco","Fun","#2b1b4d","#ffd6f5","🪩","DANCE THE NIGHT AWAY","Let’s boogie, birthday star!","🪩 🎶 💃"],
+["Level Up","Fun","#102a43","#9ef0ff","🎮","NEW LEVEL UNLOCKED","Level up, player one!","🎮 🕹️ ⭐"],
+["Royal Gold","Elegant","#fff0cf","#76531c","👑","A ROYAL CELEBRATION","Today, you’re the star!","👑 ✨ 💛"],
+["Rose Gold","Elegant","#f8e3df","#7d4a47","🌹","WITH ELEGANCE","Cheers to you","🌹 🥂 ✨"],
+["Classic Ivory","Elegant","#faf5e9","#4a3b2a","🕊️","WITH SINCERE WISHES","Happy Birthday","🕊️ ✦ ❦"],
+["Midnight Magic","Night","#30304f","#fff0d5","🌙","A NIGHT TO REMEMBER","Shine on, birthday star","🌙 ⭐ ✨"],
+["Cosmic Wishes","Night","#e7e6ff","#393b78","🪐","TO THE MOON & BACK","You’re one of a kind!","🪐 🌟 🚀"],
+["Aurora Sky","Night","#14263d","#c8ffe9","🌌","UNDER A STARRY SKY","May your year glow","🌌 ✨ 💚"]
+].map(a=>({n:a[0],c:a[1],bg:a[2],ink:a[3],emo:a[4],kick:a[5],ttl:a[6],st:a[7]}));
+const CATS=["All",...new Set(T.map(t=>t.c))],TONES=["Sweet","Funny","Heartfelt","Poetic"];
+const FONTS={Classic:'Georgia,serif',Script:'"Brush Script MT","Segoe Script",cursive',Playful:'ui-rounded,"Trebuchet MS",sans-serif',Typewriter:'"Courier New",monospace'};
+const FRAMES={None:'none',Solid:'3px solid currentColor',Double:'6px double currentColor',Dotted:'3px dotted currentColor'};
+const PATS={None:['none'],Dots:['radial-gradient(currentColor 1.5px,transparent 1.6px)','18px 18px'],Stripes:['repeating-linear-gradient(45deg,currentColor 0 2px,transparent 2px 14px)','auto'],Grid:['linear-gradient(currentColor 1px,transparent 1px),linear-gradient(90deg,currentColor 1px,transparent 1px)','24px 24px']};
+const PAL=["#fff0f5","#fff2c9","#eee9ff","#ffe4d9","#e8f4e8","#dff4f4","#f8e3df","#30304f","#14263d"];
+const $=id=>document.getElementById(id),Q=s=>[...document.querySelectorAll(s)];
+let S={},cat="All",tone="Sweet",tab="home",pick=0;
+const DEF="Wishing you a day filled with laughter, love and all your favourite things.\n\nMay this new chapter be full of wonderful surprises!";
+function load(i){const t=T[i];pick=i;S={...S,tpl:i,bg:t.bg,ink:t.ink,emo:t.emo,kick:t.kick,ttl:t.ttl,st:t.st,pshape:S.pshape||"Circle",font:S.font||"Classic",frame:S.frame||"None",pat:S.pat||"None",text:S.text||DEF};sync();}
+function toast(m){const t=$("toast");t.textContent=m;t.classList.add("on");clearTimeout(t._);t._=setTimeout(()=>t.classList.remove("on"),2000);}
+function render(){drawStk();const c=$("card");$("ph").className="ph "+(okp(S.photo)?"on ":"")+(S.pshape||"Circle").toLowerCase();if(okp(S.photo)&&$("phi").getAttribute("src")!==S.photo)$("phi").src=S.photo;c.style.background=S.bg;c.style.color=S.ink;c.style.fontFamily=FONTS[S.font];c.style.border=FRAMES[S.frame];const p=PATS[S.pat];c.style.setProperty("--pat",p[0]);c.style.setProperty("--ps",p[1]||"auto");
+$("kick").textContent=S.kick;$("big").textContent=S.emo;$("ttl").textContent=S.ttl;$("toL").textContent="To "+($("to").value.trim()||"my favourite human")+",";$("txt").textContent=S.text;
+const f=$("from").value.trim();$("sign").textContent=f?"With love, "+f+" ♡":"With lots of love ♡";
+const s=S.st.split(/\s+/).filter(Boolean);["s1","s2","s3"].forEach((k,i)=>$(k).textContent=s[i]||["🎀","♡","✦"][i]);
+$("ed").value!==S.text&&($("ed").value=S.text);const w=S.text.trim()?S.text.trim().split(/\s+/).length:0;$("wc").textContent=w+" words";clearTimeout(render.t);render.t=setTimeout(draft,700);}
+const okp=p=>/^data:image\/(jpeg|png);base64,[\w+\/=]+$/.test(p||"");
+function draft(){try{localStorage.setItem("blsd",JSON.stringify({...S,to:$("to").value,from:$("from").value}))}catch(e){}}
+function sync(){$("cbg").value=S.bg;$("cink").value=S.ink;$("ctitle").value=S.ttl;$("cemo").value=S.emo;$("ckick").value=S.kick;$("cst").value=S.st;
+Q("#sw button").forEach(b=>b.classList.toggle("on",b.dataset.c===S.bg));Q("[data-g]:not([data-g=tone])").forEach(b=>b.classList.toggle("on",S[b.dataset.g]===b.dataset.v));
+Q(".tpl").forEach(b=>b.classList.toggle("on",+b.dataset.i===S.tpl));render();}
+function esc(s){const d=document.createElement("div");d.textContent=s;return d.innerHTML;}
+function drawTpls(){$("chips").innerHTML=CATS.map(c=>`<button class="chip ${c===cat?"on":""}" data-c="${c}">${c}</button>`).join("");
+$("tpls").innerHTML=T.map((t,i)=>({t,i})).filter(o=>cat==="All"||o.t.c===cat).map(({t,i})=>`<button class="tpl ${i===S.tpl?"on":""}" data-i="${i}"><div class="thumb" style="background:${t.bg};color:${t.ink}">${t.emo}<i>${t.st.split(" ").slice(0,2).join("")}</i></div><strong>${t.n}</strong><small>${t.c}</small></button>`).join("");}
+function seg(id,key,obj){$(id).innerHTML=Object.keys(obj).map(k=>`<button data-g="${key}" data-v="${k}">${k}</button>`).join("");}
+function go(t){tab=t;document.body.dataset.tab=t;Q(".view").forEach(v=>v.classList.toggle("on",v.dataset.v===t));Q(".tab").forEach(b=>b.classList.toggle("on",b.dataset.t===t));if(t==="saved")drawSaved();scrollTo({top:0,behavior:"smooth"});}
+const pickR=a=>a[Math.floor(Math.random()*a.length)];
+function compose(){const n=$("to").value.trim()||"my favourite human",r=$("rel").value,m=$("mem").value.trim(),q=$("qual").value.trim(),w=$("wish").value.trim();
+const L={Sweet:[`Happy birthday, ${n}!\n\nI hope your day is filled with smiles, laughter and all the little things that make you happy. You are such a wonderful ${r}, and I’m so grateful to have you in my life.`,"Keep shining. You deserve all the happiness in the world!"],
+Funny:[`Happy birthday, ${n}! 🎉\n\nCongratulations on another trip around the sun. You don’t look a day older — mostly because I’ve stopped counting. Being your ${r} is the best (and most entertaining) job I’ve ever had.`,"Eat the cake, ignore the candles, and remember: you’re not old, you’re limited edition!"],
+Heartfelt:[`Dear ${n},\n\nOn your birthday I want you to know how much you mean to me. As my ${r}, you have been a steady, warm light in my life, and I don’t say thank you nearly enough.`,"Thank you for being you. I’m cheering for you today and every day."],
+Poetic:[`Dear ${n},\n\nAnother year unfolds like a page in a favourite book, and I’m so glad you’re one of its brightest characters. To me, you are more than a ${r} — you are a little piece of sunshine.`,"May every sunrise this year hold a reason to smile."]}[tone];
+let t=L[0];if(m)t+=`\n\nOne memory I’ll always treasure is ${m}. Moments like that make our bond so special.`;if(q)t+=`\n\nI love that ${q}. Never change.`;
+return t+`\n\n${w||"May this year bring you new adventures, beautiful memories and every reason to smile."}\n\n${L[1]}`;}
+function confetti(){const c=$("cf"),x=c.getContext("2d");c.width=innerWidth;c.height=innerHeight;const cols=["#ee5f98","#8f72f0","#ffd166","#5ad1c4","#ff8a5c"];
+const P=Array.from({length:160},()=>({x:innerWidth/2,y:innerHeight*.6,vx:(Math.random()-.5)*16,vy:-Math.random()*17-5,r:Math.random()*6+3,c:pickR(cols),a:Math.random()*6,s:(Math.random()-.5)*.4}));let f=0;
+(function a(){x.clearRect(0,0,c.width,c.height);P.forEach(p=>{p.vy+=.35;p.x+=p.vx;p.y+=p.vy;p.a+=p.s;x.save();x.translate(p.x,p.y);x.rotate(p.a);x.fillStyle=p.c;x.fillRect(-p.r,-p.r/2,p.r*2,p.r);x.restore()});if(++f<150)requestAnimationFrame(a);else x.clearRect(0,0,c.width,c.height)})();}
+let mem=null;function store(){if(mem)return mem;try{mem=JSON.parse(localStorage.getItem("bls")||"[]")}catch(e){mem=[]}return mem}
+function put(a){mem=a;try{localStorage.setItem("bls",JSON.stringify(a))}catch(e){toast("Saved for this visit only — browser storage is off")}}
+function drawSaved(){const a=store();$("cnt").textContent=a.length?"("+a.length+")":"";
+$("savedList").innerHTML=a.length?a.map((c,i)=>`<div class="sc" style="background:${esc(c.bg)};color:${esc(c.ink)}">${okp(c.photo)?`<img class="th" src="${c.photo}" alt="">`:`<span style="font-size:1.8rem">${esc(c.emo)}</span>`}<b>${esc(c.ttl)}</b><small>To ${esc(c.to||"my favourite human")} · ${esc(c.d||"")}</small><div class="row"><button class="btn" data-open="${i}">✎ Edit</button><button class="btn" data-dup="${i}">Copy</button><button class="btn" data-del="${i}">Delete</button></div></div>`).join(""):`<div class="empty" style="grid-column:1/-1"><div style="font-size:2.4rem">💌</div><p>No saved cards yet. Create one and tap “Save card”.</p><button class="btn primary" data-go="templates">Create a card ✨</button></div>`;}
+document.addEventListener("click",e=>{const b=e.target.closest("button");if(!b)return;
+if(b.dataset.t)go(b.dataset.t);if(b.dataset.go)go(b.dataset.go);
+if(b.dataset.c&&b.classList.contains("chip")){cat=b.dataset.c;drawTpls();}
+if(b.dataset.c&&b.closest("#sw")){S.bg=b.dataset.c;sync();}
+if(b.classList.contains("tpl")){S.text=S.text;load(+b.dataset.i);drawTpls();}
+if(b.dataset.g==="tone"){tone=b.dataset.v;Q('[data-g=tone]').forEach(x=>x.classList.toggle("on",x===b));}
+else if(b.dataset.g){S[b.dataset.g]=b.dataset.v;sync();}
+if(b.dataset.open!==undefined){S={...store()[+b.dataset.open]};pick=S.tpl||0;$("to").value=S.to||"";$("from").value=S.from||"";sync();drawTpls();go("design");}
+if(b.dataset.del!==undefined){const a=store().slice();a.splice(+b.dataset.del,1);put(a);drawSaved();toast("Deleted");}
+if(b.dataset.dup!==undefined){const a=store().slice(),c={...a[+b.dataset.dup],id:Date.now()};a.unshift(c);put(a);drawSaved();toast("Copied");}
+if(b.dataset.new){S={};$("to").value=$("from").value="";load(0);drawTpls();go("templates");}});
+$("gen").onclick=()=>{S.text=compose();render();toast("Letter generated ✨");};
+$("shuf").onclick=()=>{tone=pickR(TONES);Q('[data-g=tone]').forEach(x=>x.classList.toggle("on",x.dataset.v===tone));S.text=compose();render();toast(tone+" tone");};
+$("ed").oninput=e=>{S.text=e.target.value;render();};
+["to","from"].forEach(k=>$(k).oninput=render);
+[["cbg","bg"],["cink","ink"],["ctitle","ttl"],["cemo","emo"],["ckick","kick"],["cst","st"]].forEach(([id,k])=>$(id).oninput=e=>{S[k]=e.target.value;render();if(k==="bg")Q("#sw button").forEach(b=>b.classList.remove("on"));});
+$("rst").onclick=()=>load(pick);$("conf").onclick=confetti;
+$("photo").onchange=e=>{const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=()=>{const im=new Image();im.onload=()=>{const k=Math.min(1,700/Math.max(im.width,im.height)),cv=document.createElement("canvas");cv.width=Math.round(im.width*k);cv.height=Math.round(im.height*k);cv.getContext("2d").drawImage(im,0,0,cv.width,cv.height);S.photo=cv.toDataURL("image/jpeg",.8);render();toast("Photo added 📷");e.target.value=""};im.onerror=()=>toast("Couldn’t read that image");im.src=r.result};r.readAsDataURL(f)};
+$("rph").onclick=()=>{delete S.photo;$("phi").removeAttribute("src");render()};
+$("fab").onclick=()=>{const s=document.querySelector(".side"),t=s.getBoundingClientRect().top;t<innerHeight*.5&&t>-100?scrollTo({top:0,behavior:"smooth"}):s.scrollIntoView({behavior:"smooth"})};
+$("share").onclick=async()=>{const t=`${S.ttl}\n\n${$("toL").textContent}\n\n${S.text}\n\n${$("sign").textContent}`;try{if(window.html2canvas&&navigator.canShare){const cv=await html2canvas($("card"),{scale:2,backgroundColor:null}),bl=await new Promise(r=>cv.toBlob(r)),fl=new File([bl],"birthday_card.png",{type:"image/png"});if(navigator.canShare({files:[fl]})){await navigator.share({files:[fl],title:S.ttl,text:t});return}}if(navigator.share){await navigator.share({title:S.ttl,text:t});return}await navigator.clipboard.writeText(t);toast("Copied — paste it anywhere")}catch(e){if(e.name!=="AbortError")toast("Sharing isn’t available here")}};
+function doSave(){const a=store().slice(),c={...S,to:$("to").value.trim(),from:$("from").value.trim(),d:new Date().toLocaleDateString()},i=a.findIndex(x=>x.id&&x.id===S.id);if(i>=0){c.id=S.id;a[i]=c}else{c.id=S.id=Date.now();a.unshift(c)}put(a.slice(0,20));drawSaved();return i>=0}
+$("save").onclick=()=>{const u=doSave();confetti();toast(u?"Card updated ✔":"Saved to My cards 💌")};
+$("gosave").onclick=()=>{doSave();toast("Saved to My cards 💌")};
+$("copy").onclick=async()=>{const t=`${S.ttl}\n\n${$("toL").textContent}\n\n${S.text}\n\n${$("sign").textContent}`;try{await navigator.clipboard.writeText(t);toast("Copied!")}catch(e){toast("Copy not available here")}};
+$("print").onclick=()=>window.print();
+$("png").onclick=()=>{if(!window.html2canvas)return toast("PNG export unavailable");html2canvas($("card"),{scale:2,backgroundColor:null}).then(c=>{const a=document.createElement("a");a.href=c.toDataURL("image/png");a.download=($("to").value.trim()||"birthday").replace(/\W+/g,"_")+"_card.png";a.click();toast("Image downloaded")}).catch(()=>toast("Couldn’t create image"));};
+$("theme").onclick=()=>{const d=document.documentElement,dark=d.dataset.theme?d.dataset.theme==="dark":matchMedia("(prefers-color-scheme:dark)").matches;d.dataset.theme=dark?"light":"dark";};
+$("sw").innerHTML=PAL.map(c=>`<button style="background:${c}" data-c="${c}" aria-label="Colour ${c}"></button>`).join("");
+$("tone").innerHTML=TONES.map(t=>`<button data-g="tone" data-v="${t}" class="${t===tone?"on":""}">${t}</button>`).join("");
+const PK={Birthday:['🎂','🎉','🎈','🎁','🥳','🎊','🕯️','🍰','🧁','🪅','🎀','🎶'],Love:['❤️','💖','💕','💗','💌','😍','🥰','💘','💝','🌹','💋','✨'],Cute:['🧸','🐻','🐰','🐱','🐶','🦄','🐣','🐥','🍓','🍭','🌈','☁️'],Nature:['🌸','🌷','🌻','🌼','🍃','🦋','🐝','🍀','🌴','🍂','❄️','🌙'],Space:['⭐','🌟','✨','💫','🪐','🌙','🚀','🌌','☄️','🛸','🔭','🌠'],Food:['🍕','🍩','🍪','🍫','🍦','🍓','🍉','🍒','🥂','🍹','🧋','🍿'],Words:['HBD!','Yay!','Party time','Make a wish','Cheers!','So cute','Love you','Hooray!']};
+const isT=e=>/^[A-Za-z]/.test(e),rnd=(a,b)=>Math.round(a+Math.random()*(b-a));
+let sel=-1,drag=null,pk='Birthday';
+function drawStk(){Q('#card .stk').forEach(x=>x.remove());const a=S.stk||[];a.forEach((s,i)=>{const d=document.createElement('div');d.className='stk'+(i===sel?' sel':'')+(isT(s.e)?' t':'');d.dataset.i=i;d.textContent=s.e;d.style.cssText=`left:${s.x}%;top:${s.y}%;font-size:${s.s}px;transform:translate(-50%,-50%) rotate(${s.r}deg)`;$('card').appendChild(d)});$('scount').textContent='· '+a.length+' on card'}
+function ctrl(){const s=(S.stk||[])[sel];$('ssz').value=s?s.s:38;$('srt').value=s?s.r:0;$('ssz').disabled=$('srt').disabled=$('sdel').disabled=!s}
+function addStk(e){const a=S.stk||[];if(a.length>=40)return toast('That’s plenty of stickers!');S.stk=[...a,{e,x:rnd(15,85),y:rnd(14,88),s:isT(e)?20:38,r:rnd(-20,20)}];sel=S.stk.length-1;render();ctrl();toast('Added! Drag it on the card')}
+function drawTray(){$('pkc').innerHTML=Object.keys(PK).map(k=>`<button class="chip ${k===pk?'on':''}" data-pk="${k}">${k}</button>`).join('');$('tray').innerHTML=PK[pk].map(e=>`<button class="sb${isT(e)?' t':''}" data-e="${e}">${e}</button>`).join('')}
+$('pkc').onclick=e=>{const b=e.target.closest('[data-pk]');if(b){pk=b.dataset.pk;drawTray()}};
+$('tray').onclick=e=>{const b=e.target.closest('[data-e]');if(b)addStk(b.dataset.e)};
+$('ssz').oninput=e=>{const s=(S.stk||[])[sel];if(s){s.s=+e.target.value;render()}};
+$('srt').oninput=e=>{const s=(S.stk||[])[sel];if(s){s.r=+e.target.value;render()}};
+$('sdel').onclick=()=>{if(sel>=0){S.stk.splice(sel,1);sel=-1;render();ctrl()}};
+$('sclr').onclick=()=>{S.stk=[];sel=-1;render();ctrl()};
+$('auto').onclick=()=>{const p=PK[pk==='Words'?'Birthday':pk];for(let i=0;i<14;i++){const sd=i%4,x=sd<2?rnd(8,92):sd===2?rnd(5,10):rnd(90,95),y=sd===0?rnd(4,12):sd===1?rnd(88,96):rnd(20,80);if((S.stk||[]).length<40)S.stk=[...(S.stk||[]),{e:p[rnd(0,p.length-1)],x,y,s:rnd(26,44),r:rnd(-25,25)}]}sel=-1;render();toast('Stickers added ✨')};
+$('gosave2').onclick=()=>{doSave();toast('Saved to My cards 💌')};
+const cd=$('card');
+cd.addEventListener('pointerdown',e=>{const el=e.target.closest('.stk');if(!el){if(sel>=0){sel=-1;Q('#card .stk').forEach(x=>x.classList.remove('sel'));ctrl()}return}e.preventDefault();sel=+el.dataset.i;drag=el;el.setPointerCapture(e.pointerId);Q('#card .stk').forEach(x=>x.classList.toggle('sel',x===el));ctrl()});
+cd.addEventListener('pointermove',e=>{if(!drag)return;const r=cd.getBoundingClientRect(),s=S.stk[sel];s.x=Math.max(0,Math.min(100,(e.clientX-r.left)/r.width*100));s.y=Math.max(0,Math.min(100,(e.clientY-r.top)/r.height*100));drag.style.left=s.x+'%';drag.style.top=s.y+'%'});
+const up=()=>{if(drag){drag=null;render()}};cd.addEventListener('pointerup',up);cd.addEventListener('pointercancel',up);
+const SH=[['WhatsApp','💬','#25D366','wa'],['Instagram','📸','linear-gradient(45deg,#f9a03f,#e1306c,#833ab4)','img'],['Snapchat','👻','#fffc00','img'],['Telegram','✈️','#2AABEE','tg'],['X','✖️','#111','x'],['Email','✉️','#ea4335','mail'],['SMS','📱','#34c759','sms'],['Copy text','📋','#8f72f0','copy'],['Save image','⬇️','#ee5f98','save'],['More apps','📤','#5b5b6b','img']];
+$('shg').innerHTML=SH.map(s=>`<button class="shb" data-k="${s[3]}" data-n="${s[0]}"><i style="background:${s[2]}">${s[1]}</i>${s[0]}</button>`).join('');
+const txt=()=>`${S.ttl}\n\n${$('toL').textContent}\n\n${S.text}\n\n${$('sign').textContent}`;
+let prep=null;
+function mk(){sel=-1;drawStk();return html2canvas($('card'),{scale:2,backgroundColor:null}).then(c=>new Promise(r=>c.toBlob(b=>r(new File([b],'birthday_card.png',{type:'image/png'})))))}
+function dl(f){const a=document.createElement('a');a.href=URL.createObjectURL(f);a.download=f.name;a.click();setTimeout(()=>URL.revokeObjectURL(a.href),4000)}
+function openSheet(){$('sheet').hidden=false;prep=window.html2canvas?mk():Promise.reject(new Error('x'));prep.catch(()=>{})}
+function link(u){const a=document.createElement('a');a.href=u;a.click()}
+async function doShare(k,n){const t=txt(),e=encodeURIComponent,op=u=>{if(!window.open(u,'_blank'))toast('Please allow pop-ups to share')};
+if(k==='wa')return op('https://wa.me/?text='+e(t));if(k==='tg')return op('https://t.me/share/url?url=%20&text='+e(t));if(k==='x')return op('https://twitter.com/intent/tweet?text='+e(t.slice(0,250)));
+if(k==='mail')return link('mailto:?subject='+e(S.ttl)+'&body='+e(t));if(k==='sms')return link('sms:?&body='+e(t));
+if(k==='copy'){try{await navigator.clipboard.writeText(t);toast('Copied!')}catch(x){toast('Copy not available here')}return}
+try{const f=await prep;if(k==='save'){dl(f);return toast('Image saved ✔')}
+if(navigator.canShare&&navigator.canShare({files:[f]})){await navigator.share({files:[f],title:S.ttl,text:t});return}
+if(n==='More apps'&&navigator.share){await navigator.share({title:S.ttl,text:t});return}
+dl(f);toast(n==='More apps'?'Image saved ✔':'Image saved — open '+n+' and post it from your gallery')}catch(err){if(err&&err.name==='AbortError')return;toast('Couldn’t create the image')}}
+$('shg').onclick=e=>{const b=e.target.closest('.shb');if(b)doShare(b.dataset.k,b.dataset.n)};
+$('shx').onclick=()=>{$('sheet').hidden=true};$('sheet').onclick=e=>{if(e.target.id==='sheet')$('sheet').hidden=true};
+$('share').onclick=openSheet;
+$('png').onclick=()=>{if(!window.html2canvas)return toast('PNG export unavailable');mk().then(f=>{dl(f);toast('Image downloaded')}).catch(()=>toast('Couldn’t create image'))};
+drawTray();ctrl();
+seg("pshapes","pshape",{Circle:1,Rounded:1,Square:1,Polaroid:1,Wide:1});seg("fonts","font",FONTS);seg("frames","frame",FRAMES);seg("pats","pat",PATS);
+load(0);try{const d=JSON.parse(localStorage.getItem("blsd")||"null");if(d&&d.tpl!==undefined){S={...d};pick=S.tpl;$("to").value=d.to||"";$("from").value=d.from||"";sync()}}catch(e){}drawTpls();drawSaved();
+</script>
+</body>
+</html>
